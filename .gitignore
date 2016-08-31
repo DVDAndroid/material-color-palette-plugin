@@ -8,3 +8,4 @@ gen/
 atlassian-ide-plugin.xml
 build/
 build.properties
+.gradle
