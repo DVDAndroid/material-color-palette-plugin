@@ -1,5 +1,7 @@
 material-color-palette-plugin
 =============================
+[![Build Status](https://travis-ci.org/DVDAndroid/material-color-palette-plugin.svg?branch=master)](https://travis-ci.org/DVDAndroid/material-color-palette-plugin)
+
 
 This plugin helps you add a Material Color value into the project
 
