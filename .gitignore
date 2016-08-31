@@ -1,0 +1,10 @@
+.idea/
+*.ipr
+*.iws
+*.iml
+out/
+gen/
+.idea_modules/
+atlassian-ide-plugin.xml
+build/
+build.properties
