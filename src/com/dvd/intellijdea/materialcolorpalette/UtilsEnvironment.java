@@ -16,6 +16,9 @@
 
 package com.dvd.intellijdea.materialcolorpalette;
 
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.command.UndoConfirmationPolicy;
@@ -26,7 +29,6 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleManager;
@@ -77,9 +79,8 @@ class UtilsEnvironment {
     }
 
     private static Project getOpenProject() {
-        Project[] projects = ProjectManager.getInstance().getOpenProjects();
-
-        return (projects.length > 0) ? projects[0] : null;
+        DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
+        return DataKeys.PROJECT.getData(dataContext);
     }
 
     private static Editor getEditor(Project curProject) {
