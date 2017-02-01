@@ -17,12 +17,18 @@
 <idea-plugin version="2">
     <id>com.dvd.intellijdea.materialcolorpalette</id>
     <name>Material Color Palette</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor url="https://github.com/dvdandroid/material-color-palette-plugin">dvdandroid</vendor>
 
     <description><![CDATA[
       This plugin helps you add a Material Color value into the project
     ]]></description>
+
+    <change-notes><![CDATA[
+        <ul>
+            <li>1.2 Fixed pasting in wrong window</li>
+        </ul>
+    ]]></change-notes>
 
     <idea-version since-build="141.0"/>
 

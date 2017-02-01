@@ -25,7 +25,7 @@ repositories {
 apply plugin: 'java'
 
 group 'com.dvd.intellijidea'
-version 1.0
+version 1.2
 
 intellij {
     pluginName 'Material Color Palette Importer'
