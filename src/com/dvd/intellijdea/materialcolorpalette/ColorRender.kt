@@ -47,7 +47,7 @@ internal class ColorRender(private val children: Boolean) : JPanel(), ListCellRe
 
         layout = GridBagLayout()
         background = Color.decode(color.hexCode)
-        toolTipText = color.fixedName
+        toolTipText = "${color.fixedName} (${color.hexCode})"
 
         minimumSize = Dimension(size, size)
         maximumSize = Dimension(size, size)
