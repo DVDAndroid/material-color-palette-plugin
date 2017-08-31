@@ -17,9 +17,12 @@
 package com.dvd.intellijdea.materialcolorpalette
 
 import com.dvd.intellijdea.materialcolorpalette.Colors.allColors
+import java.awt.Toolkit
+import java.awt.datatransfer.StringSelection
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import javax.swing.*
+
 
 /**
  * @author dvdandroid
@@ -62,7 +65,7 @@ class Palette {
 
             val index = list.locationToIndex(e.point)
 
-            if (index != -1 && !list.getCellBounds(index, index).contains(e.point))return
+            if (index != -1 && !list.getCellBounds(index, index).contains(e.point)) return
 
             if (list === parentColors) {
                 val children = DefaultListModel<MaterialColor>()
@@ -98,8 +101,12 @@ class Palette {
                 val colorResThisItem = JMenuItem(String.format(PASTE, "this", "resource"))
                 colorResThisItem.addActionListener({ UtilsEnvironment.insertInEditor(allColors[lastIndex][index].colorRes) })
 
+                val clipboardThisItem = JMenuItem(String.format(COPY, "this"))
+                clipboardThisItem.addActionListener({ copyToClipboard(allColors[lastIndex][index].hexCode) })
+
                 popup.add(hexThisItem)
                 popup.add(colorResThisItem)
+                popup.add(clipboardThisItem)
 
                 return
             }
@@ -110,17 +117,25 @@ class Palette {
             val colorRes500Item = JMenuItem(String.format(PASTE, "primary", "resource"))
             colorRes500Item.addActionListener({ UtilsEnvironment.insertInEditor(allColors[index][5].colorRes) })
 
+            val clipboard500Item = JMenuItem(String.format(COPY, "primary"))
+            clipboard500Item.addActionListener({ copyToClipboard(allColors[index][5].hexCode) })
+
             val hex700Item = JMenuItem(String.format(PASTE, "dark primary", "HEX code"))
             hex700Item.addActionListener({ UtilsEnvironment.insertInEditor(allColors[index][7].hexCode) })
 
             val colorRes700Item = JMenuItem(String.format(PASTE, "dark primary", "resource"))
             colorRes700Item.addActionListener({ UtilsEnvironment.insertInEditor(allColors[index][7].colorRes) })
 
+            val clipboard700Item = JMenuItem(String.format(COPY, "dark primary"))
+            clipboard700Item.addActionListener({ copyToClipboard(allColors[index][7].hexCode) })
+
             this.popup.add(hex500Item)
             this.popup.add(colorRes500Item)
+            this.popup.add(clipboard500Item)
             this.popup.addSeparator()
             this.popup.add(hex700Item)
             this.popup.add(colorRes700Item)
+            this.popup.add(clipboard700Item)
 
             if (index < 16) {
                 val hexAccentItem = JMenuItem(String.format(PASTE, "accent", "HEX code"))
@@ -129,14 +144,21 @@ class Palette {
                 val colorResAccentItem = JMenuItem(String.format(PASTE, "accent", "resource"))
                 colorResAccentItem.addActionListener({ UtilsEnvironment.insertInEditor(allColors[index][11].colorRes) })
 
+                val clipboardAccentItem = JMenuItem(String.format(COPY, "accent"))
+                clipboardAccentItem.addActionListener({ copyToClipboard(allColors[index][11].hexCode) })
+
                 popup.addSeparator()
                 popup.add(hexAccentItem)
                 popup.add(colorResAccentItem)
+                popup.add(clipboardAccentItem)
             }
         }
+
+        private fun copyToClipboard(colorRes: String) = Toolkit.getDefaultToolkit().systemClipboard.setContents(StringSelection(colorRes), null)
     }
 
     companion object {
+        private val COPY = "Copy %s HEX color in clipboard"
         private val PASTE = "Paste %s color as %s"
     }
 
