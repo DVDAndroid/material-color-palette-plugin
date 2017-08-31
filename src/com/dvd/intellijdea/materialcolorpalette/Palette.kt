@@ -38,12 +38,12 @@ class Palette {
         }
 
         parentColors.layoutOrientation = JList.HORIZONTAL_WRAP
-        parentColors.cellRenderer = ColorRender()
+        parentColors.cellRenderer = ColorRender(false)
         parentColors.model = listModel
         parentColors.visibleRowCount = 5
 
         childrenColors.layoutOrientation = JList.HORIZONTAL_WRAP
-        childrenColors.cellRenderer = ColorRender()
+        childrenColors.cellRenderer = ColorRender(true)
 
         parentColors.addMouseListener(RightClickPopup())
         childrenColors.addMouseListener(RightClickPopup())

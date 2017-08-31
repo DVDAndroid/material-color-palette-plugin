@@ -27,9 +27,10 @@ import javax.swing.*
 /**
  * @author dvdandroid
  */
-internal class ColorRender : JPanel(), ListCellRenderer<MaterialColor> {
+internal class ColorRender(private val children: Boolean) : JPanel(), ListCellRenderer<MaterialColor> {
 
     private var icon: JLabel? = null
+    private var name: JLabel? = null
 
     init {
         try {
@@ -37,6 +38,8 @@ internal class ColorRender : JPanel(), ListCellRenderer<MaterialColor> {
             icon = JLabel(ImageIcon(bufImg))
         } catch (ignored: IOException) {
         }
+
+        name = JLabel()
     }
 
     override fun getListCellRendererComponent(list: JList<out MaterialColor>, color: MaterialColor, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component {
@@ -50,6 +53,13 @@ internal class ColorRender : JPanel(), ListCellRenderer<MaterialColor> {
         maximumSize = Dimension(size, size)
         preferredSize = Dimension(size, size)
 
+        if (children) {
+            name!!.text = "A?\\d+".toRegex().find(color.fixedName)?.groups?.get(0)?.value
+        } else {
+            name!!.text = "\\D+".toRegex().find(color.fixedName)?.groups?.get(0)?.value
+        }
+
+        add(name)
         if (isSelected) {
             add(icon)
         } else {
