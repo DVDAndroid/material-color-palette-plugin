@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 dvdandroid
+ * Copyright 2020 dvdandroid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,25 +21,24 @@ import com.intellij.openapi.ui.SimpleToolWindowPanel
 import com.intellij.ui.content.ContentFactory
 import java.awt.BorderLayout
 
-/**
- * @author dvdandroid
- */
 class ToolWindowFactory : com.intellij.openapi.wm.ToolWindowFactory {
 
     override fun createToolWindowContent(project: Project, toolWindow: com.intellij.openapi.wm.ToolWindow) {
         val newToolWindow = ToolWindow()
         val content = ContentFactory.SERVICE.getInstance().createContent(newToolWindow, "", false)
 
-        toolWindow.setAvailable(true, null)
-        toolWindow.isToHideOnEmptyContent = true
-        toolWindow.title = "Material Palette"
+        toolWindow.apply {
+            toolWindow.title = "Material Palette"
+            toolWindow.isToHideOnEmptyContent = true
+            toolWindow.setAvailable(true, null)
 
-        toolWindow.contentManager.addContent(content)
+            toolWindow.contentManager.addContent(content)
+        }
     }
 
-    internal inner class ToolWindow : SimpleToolWindowPanel(false) {
+    inner class ToolWindow : SimpleToolWindowPanel(false) {
         init {
-            add(Palette().panel!!, BorderLayout.CENTER)
+            add(Palette().panel, BorderLayout.CENTER)
         }
     }
 

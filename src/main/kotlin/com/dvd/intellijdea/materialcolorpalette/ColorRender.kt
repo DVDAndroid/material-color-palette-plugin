@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 dvdandroid
+ * Copyright 2020 dvdandroid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,10 @@ import java.io.IOException
 import javax.imageio.ImageIO
 import javax.swing.*
 
-/**
- * @author dvdandroid
- */
-internal class ColorRender(private val children: Boolean) : JPanel(), ListCellRenderer<MaterialColor> {
+class ColorRender(private val children: Boolean) : JPanel(), ListCellRenderer<MaterialColor> {
 
-    private var icon: JLabel? = null
-    private var name: JLabel? = null
+    private var name = JLabel()
+    private lateinit var icon: JLabel
 
     init {
         try {
@@ -38,11 +35,15 @@ internal class ColorRender(private val children: Boolean) : JPanel(), ListCellRe
             icon = JLabel(ImageIcon(bufImg))
         } catch (ignored: IOException) {
         }
-
-        name = JLabel()
     }
 
-    override fun getListCellRendererComponent(list: JList<out MaterialColor>, color: MaterialColor, index: Int, isSelected: Boolean, cellHasFocus: Boolean): Component {
+    override fun getListCellRendererComponent(
+        list: JList<out MaterialColor>,
+        color: MaterialColor,
+        index: Int,
+        isSelected: Boolean,
+        cellHasFocus: Boolean
+    ): Component {
         val size = 100
 
         layout = GridBagLayout()
@@ -53,18 +54,16 @@ internal class ColorRender(private val children: Boolean) : JPanel(), ListCellRe
         maximumSize = Dimension(size, size)
         preferredSize = Dimension(size, size)
 
-        if (children) {
-            name!!.text = "A?\\d+".toRegex().find(color.fixedName)?.groups?.get(0)?.value
-        } else {
-            name!!.text = "\\D+".toRegex().find(color.fixedName)?.groups?.get(0)?.value
-        }
+        if (children)
+            name.text = "A?\\d+".toRegex().find(color.fixedName)?.groups?.get(0)?.value
+        else
+            name.text = "\\D+".toRegex().find(color.fixedName)?.groups?.get(0)?.value
+
 
         add(name)
-        if (isSelected) {
-            add(icon)
-        } else {
-            remove(icon!!)
-        }
+
+        if (isSelected) add(icon)
+        else remove(icon)
 
         return this
     }

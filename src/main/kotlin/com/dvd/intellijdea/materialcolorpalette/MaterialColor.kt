@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 dvdandroid
+ * Copyright 2020 dvdandroid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 
 package com.dvd.intellijdea.materialcolorpalette
 
-internal class MaterialColor(name: String, val hexCode: String) {
+data class MaterialColor(val name: String, val hexCode: String) {
 
-    val fixedName: String
-    val colorRes: String
-
-    init {
-        this.fixedName = capitalize(name)
-        this.colorRes = String.format(COLOR_RES, name, hexCode)
+    companion object {
+        private const val COLOR_RES = "<color name=\"%s\">%s</color>"
     }
+
+    val fixedName = capitalize(name)
+    val colorRes = COLOR_RES.format(name, hexCode)
 
     private fun capitalize(str: String): String {
         val words = str.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -41,7 +40,4 @@ internal class MaterialColor(name: String, val hexCode: String) {
 
     override fun toString() = fixedName
 
-    companion object {
-        private val COLOR_RES = "<color name=\"%s\">%s</color>"
-    }
 }
