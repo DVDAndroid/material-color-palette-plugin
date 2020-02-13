@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2016 dvdandroid
+  ~ Copyright 2020 dvdandroid
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,25 +14,28 @@
   ~ limitations under the License.
   -->
 
-<idea-plugin version="2">
+<idea-plugin>
     <id>com.dvd.intellijdea.materialcolorpalette</id>
     <name>Material Color Palette</name>
-    <version>1.2</version>
     <vendor url="https://github.com/dvdandroid/material-color-palette-plugin">dvdandroid</vendor>
 
     <description><![CDATA[
-      This plugin helps you add a Material Color value into the project
-    ]]></description>
+        This plugin helps you add a Material Color value into the project
+        ]]></description>
 
     <change-notes><![CDATA[
-        <ul>
-            <li>1.2 Fixed pasting in wrong window</li>
+        2.0: <ul>
+            <li>Code fixes</li>
+            <li>Added support for clipboard</li>
+        </ul>
+        1.2: <ul>
+            <li> Fixed pasting in wrong window</li>
         </ul>
     ]]></change-notes>
 
-    <idea-version since-build="141.0"/>
+    <depends>com.intellij.modules.platform</depends>
 
-    <depends>org.jetbrains.android</depends>
+    <idea-version since-build="191.0"/>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Material Palette" anchor="right"

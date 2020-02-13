@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 dvdandroid
+ * Copyright 2020 dvdandroid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package com.dvd.intellijdea.materialcolorpalette
 
 import com.intellij.ide.DataManager
-import com.intellij.openapi.actionSystem.DataKeys
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
@@ -25,19 +25,25 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.ProjectManager
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.util.PsiUtilBase
+import java.util.concurrent.TimeUnit
 
-/**
- * @author dvdandroid
- */
-internal object UtilsEnvironment {
+object UtilsEnvironment {
+
+    private val openProject: Project?
+        get() = DataManager.getInstance().dataContextFromFocusAsync.blockingGet(1, TimeUnit.SECONDS)?.getData(
+            PlatformDataKeys.PROJECT
+        ) as Project
 
     fun insertInEditor(text: String?) {
         val project = openProject
         val editor = getEditor(project)
 
-        if (project != null && editor != null && text != null && !text.isEmpty()) {
+        ProjectManager.getInstance().openProjects
+
+        if (project != null && editor != null && text != null && text.isNotEmpty()) {
             val caretModel = editor.caretModel
             val currentOffset = caretModel.offset
             val selectionModel = editor.selectionModel
@@ -57,28 +63,20 @@ internal object UtilsEnvironment {
                         editor.caretModel.moveToOffset(currentOffset + textLen)
                     }
 
-                    val file = FileDocumentManager.getInstance().getFile(document)
-                    if (file != null) {
-                        val psiFile = PsiUtilBase.getPsiFileInEditor(editor, project)
-                        if (psiFile != null) {
-                            CodeStyleManager.getInstance(project).reformatText(psiFile, currentOffset, currentOffset + textLen)
+                    FileDocumentManager.getInstance().getFile(document)?.let {
+                        PsiUtilBase.getPsiFileInEditor(editor, project)?.let { psiFile ->
+                            CodeStyleManager.getInstance(project)
+                                .reformatText(psiFile, currentOffset, currentOffset + textLen)
                         }
                     }
                 }
             }, "Paste", UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION)
 
-            val virtualFile = FileDocumentManager.getInstance().getFile(editor.document)
-            if (virtualFile != null) {
-                FileEditorManager.getInstance(project).openFile(virtualFile, true)
+            FileDocumentManager.getInstance().getFile(editor.document)?.let { file ->
+                FileEditorManager.getInstance(project).openFile(file, true)
             }
         }
     }
-
-    private val openProject: Project?
-        get() {
-            val dataContext = DataManager.getInstance().dataContextFromFocus.result
-            return DataKeys.PROJECT.getData(dataContext)
-        }
 
     private fun getEditor(curProject: Project?): Editor? {
         var pr = curProject
