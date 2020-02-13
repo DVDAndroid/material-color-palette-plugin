@@ -1,6 +1,6 @@
 material-color-palette-plugin
 =============================
-
+![IntelliJ plugin check](https://github.com/DVDAndroid/material-color-palette-plugin/workflows/IntelliJ%20plugin%20check/badge.svg)
 
 This plugin helps you add a Material Color value into the project
 
