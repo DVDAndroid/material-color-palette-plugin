@@ -29,7 +29,6 @@ class ToolWindowFactory : com.intellij.openapi.wm.ToolWindowFactory {
 
         toolWindow.apply {
             toolWindow.title = "Material Palette"
-            toolWindow.isToHideOnEmptyContent = true
             toolWindow.setAvailable(true, null)
 
             toolWindow.contentManager.addContent(content)

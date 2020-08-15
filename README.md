@@ -6,6 +6,8 @@ This plugin helps you add a Material Color value into the project
 
 [JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/8590)
 
+<iframe frameborder="none" width="230px" height="110px" src="https://plugins.jetbrains.com/embeddable/card/8590"></iframe>
+
 ## Screenshots
 
 ![](./art/screen2.png)

@@ -35,8 +35,6 @@
 
     <depends>com.intellij.modules.platform</depends>
 
-    <idea-version since-build="191.0"/>
-
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Material Palette" anchor="right"
                     factoryClass="com.dvd.intellijdea.materialcolorpalette.ToolWindowFactory"
